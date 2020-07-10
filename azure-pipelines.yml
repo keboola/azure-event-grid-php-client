@@ -46,7 +46,7 @@ steps:
   displayName: 'Run Tests PHP 7.4'
   env:
     TEST_TOPIC_ENDPOIND: ($TEST_TOPIC_ENDPOIND)
-      TEST_TOPIC_KEY: ($TEST_TOPIC_KEY)
+    TEST_TOPIC_KEY: ($TEST_TOPIC_KEY)
     # For Codeclimate:
     GIT_COMMIT_SHA: $(Build.SourceVersion)
     GIT_BRANCH: $(Build.SourceBranch)
