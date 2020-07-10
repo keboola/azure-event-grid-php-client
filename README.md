@@ -17,7 +17,6 @@ Create client instance and encrypt data:
 ```php
 $client = new Client(
     new GuzzleClientFactory($logger),
-    new AuthenticatorFactory(),
     'https://connection-events.northeurope-1.eventgrid.azure.net/api/events'
 );
 ```
@@ -48,4 +47,5 @@ Get endpoint url:
 
     az resource show -g testing-azure-event-grid-php-client --resource-type "Microsoft.EventGrid/topics"
 
-returns properties.endpoint set it as TEST_TOPIC_ENDPOIND
+returns properties.endpoint set it as TEST_TOPIC_ENDPOINT
+go to azure portal find event grid resource open "Access keys" section and one of the keys set to TEST_TOPIC_KEY variable
