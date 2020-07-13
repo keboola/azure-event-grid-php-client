@@ -17,7 +17,7 @@ Create client instance and encrypt data:
 ```php
 $client = new Client(
     new GuzzleClientFactory($logger),
-    'https://connection-events.northeurope-1.eventgrid.azure.net/api/events'
+    'connection-events.northeurope-1.eventgrid.azure.net'
 );
 ```
 
