@@ -117,6 +117,7 @@ class GuzzleClientFactoryTestx extends TestCase
         $this->assertEquals('123', $request->getHeader('aeg-sas-key')[0]);
         // default header
         $this->assertEquals('application/json', $request->getHeader('Content-type')[0]);
+        $this->assertEquals('123', $request->getHeader('aeg-sas-key')[0]);
     }
 
     public function testRetryDeciderNoRetry(): void
