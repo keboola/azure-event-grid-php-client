@@ -59,7 +59,7 @@ class Client
 
     private function handleRequestException(GuzzleException $e): void
     {
-        if ($e->getResponse() && is_a($e->getResponse(), Response::class)) {
+        if ($e->getResponse() !== null && $e->getResponse() instanceof Response) {
             /** @var Response $response */
             $response = $e->getResponse();
             try {

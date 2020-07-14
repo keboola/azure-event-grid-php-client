@@ -15,7 +15,7 @@ use PHPUnit\Framework\TestCase;
 use Psr\Log\NullLogger;
 use Psr\Log\Test\TestLogger;
 
-class GuzzleClientFactoryTestx extends TestCase
+class GuzzleClientFactoryTest extends TestCase
 {
     public function testGetClient(): void
     {

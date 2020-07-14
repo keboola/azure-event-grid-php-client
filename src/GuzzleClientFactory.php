@@ -30,20 +30,12 @@ class GuzzleClientFactory
         $this->logger = $logger;
     }
 
-    /**
-     * @return LoggerInterface
-     */
     public function getLogger(): LoggerInterface
     {
         return $this->logger;
     }
 
-    /**
-     * @param string $baseUrl
-     * @param array $options
-     * @return GuzzleClient
-     */
-    public function getClient($baseUrl, array $options = [])
+    public function getClient(string $baseUrl, array $options = []): GuzzleClient
     {
         $validator = Validation::createValidator();
         $errors = $validator->validate($baseUrl, [new NotBlank(), new Url()]);
@@ -80,7 +72,7 @@ class GuzzleClientFactory
         return $this->initClient($baseUrl, $options);
     }
 
-    private function initClient($url, array $options = [])
+    private function initClient(string $url, array $options = []): GuzzleClient
     {
         // Initialize handlers (start with those supplied in constructor)
         if (isset($options['handler']) && $options['handler'] instanceof HandlerStack) {
@@ -89,7 +81,7 @@ class GuzzleClientFactory
             $handlerStack = HandlerStack::create();
         }
         // Set exponential backoff
-        $handlerStack->push(Middleware::retry($this->createDefaultDecider($options['backoffMaxTries'])));
+        $handlerStack->push(Middleware::retry($this->createDefaultDecider((int) $options['backoffMaxTries'])));
 
         // Set client logger
         if (isset($options['logger']) && $options['logger'] instanceof LoggerInterface) {
@@ -114,7 +106,7 @@ class GuzzleClientFactory
         ]);
     }
 
-    private function createDefaultDecider($maxRetries)
+    private function createDefaultDecider(int $maxRetries): callable
     {
         return function (
             $retries,
