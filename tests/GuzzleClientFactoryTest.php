@@ -58,7 +58,7 @@ class GuzzleClientFactoryTest extends TestCase
             'missing-accessKey' => [
                 [
                 ],
-                'Access key is not set.',
+                'Invalid options when creating client: Value "" is invalid: This value should not be blank.',
             ],
         ];
     }
