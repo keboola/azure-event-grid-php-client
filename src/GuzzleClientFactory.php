@@ -68,7 +68,7 @@ class GuzzleClientFactory
             $messages = [];
             /** @var ConstraintViolationInterface $error */
             foreach ($errors as $error) {
-                $messages[] = sprintf('Value "%s" is invalid: %s', $error->getInvalidValue(), $error->getMessage());
+                $messages[] = sprintf('Value "%s" is invalid: %s', $error->getInvalidValue(), (string) $error->getMessage());
             }
             throw new ClientException('Invalid options when creating client: ' . implode("\n", $messages));
         }
