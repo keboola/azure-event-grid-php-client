@@ -35,6 +35,9 @@ class GuzzleClientFactory
         return $this->logger;
     }
 
+    /**
+     * @param array<mixed> $options
+     */
     public function getClient(string $baseUrl, array $options = []): GuzzleClient
     {
         $validator = Validation::createValidator();
@@ -72,6 +75,9 @@ class GuzzleClientFactory
         return $this->initClient($baseUrl, $options);
     }
 
+    /**
+     * @param array<mixed> $options
+     */
     private function initClient(string $url, array $options = []): GuzzleClient
     {
         // Initialize handlers (start with those supplied in constructor)
@@ -118,19 +124,28 @@ class GuzzleClientFactory
                 return false;
             }
             $code = null;
-            if ($response) {
+            if ($response !== null) {
                 $code = (int) $response->getStatusCode();
-            } elseif ($error) {
+            } elseif ($error !== null) {
                 $code = (int) $error->getCode();
             }
             if (($code >= 400) && ($code < 500) && ($code !== self::AZURE_THROTTLING_CODE)) {
                 return false;
             }
             if ($code >= 500 || $code === self::AZURE_THROTTLING_CODE || $error) {
+                $message = '';
+                if ($response !== null) {
+                    $message = $response->getBody()->getContents();
+                }
+
+                if (!empty($error)) {
+                    $message = $error->getMessage();
+                }
+
                 $this->logger->warning(
                     sprintf(
                         'Request failed (%s), retrying (%s of %s)',
-                        empty($error) ? $response->getBody()->getContents() : $error->getMessage(),
+                        $message,
                         $retries,
                         $maxRetries
                     )

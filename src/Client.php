@@ -3,6 +3,7 @@
 namespace Keboola\AzureEventGridClient;
 
 use GuzzleHttp\Client as GuzzleClient;
+use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Request;
@@ -17,8 +18,8 @@ class Client
 
     public function __construct(
         GuzzleClientFactory $clientFactory,
-        $topicHostname,
-        $accessKey
+        string $topicHostname,
+        string $accessKey
     ) {
         $handlerStack = HandlerStack::create();
         $this->guzzle = $clientFactory->getClient(
@@ -59,9 +60,12 @@ class Client
 
     private function handleRequestException(GuzzleException $e): void
     {
-        if ($e->getResponse() !== null && $e->getResponse() instanceof Response) {
-            /** @var Response $response */
-            $response = $e->getResponse();
+        if(!$e instanceof BadResponseException){
+            return;
+        }
+        /** @var Response|null $response */
+        $response = $e->getResponse();
+        if ($response !== null && $response instanceof Response) {
             try {
                 $data = \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
             } catch (GuzzleException $e2) {

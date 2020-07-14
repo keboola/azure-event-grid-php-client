@@ -9,7 +9,7 @@ final class EventGridEvent
     /** @var string */
     private $subject;
 
-    /** @var array */
+    /** @var array<mixed> */
     private $data;
 
     /** @var string */
@@ -18,6 +18,9 @@ final class EventGridEvent
     /** @var string */
     private $id;
 
+    /**
+     * @param array<mixed> $data
+     */
     public function __construct(string $id, string $subject, array $data, string $eventType)
     {
         $this->subject = $subject;
@@ -26,6 +29,9 @@ final class EventGridEvent
         $this->id = $id;
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function toArray(): array
     {
         return [

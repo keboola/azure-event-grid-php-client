@@ -27,10 +27,9 @@ class GuzzleClientFactoryTest extends TestCase
 
     /**
      * @dataProvider invalidOptionsProvider
-     * @param array $options
-     * @param string $expectedMessage
+     * @param array<mixed> $options
      */
-    public function testInvalidOptions(array $options, $expectedMessage): void
+    public function testInvalidOptions(array $options, string $expectedMessage): void
     {
         $factory = new GuzzleClientFactory(new NullLogger());
         $this->expectException(ClientException::class);
@@ -38,28 +37,29 @@ class GuzzleClientFactoryTest extends TestCase
         $factory->getClient('http://example.com', $options);
     }
 
-    public function invalidOptionsProvider(): array
+    /**
+     * @return \Generator<array<mixed>>
+     */
+    public function invalidOptionsProvider(): \Generator
     {
-        return [
-            'invalid-options' => [
-                [
-                    'non-existent' => 'foo',
-                    'accessKey' => '123',
-                ],
-                'Invalid options when creating client: non-existent. Valid options are: backoffMaxTries, userAgent, handler, logger, accessKey.',
+        yield 'invalid-options' => [
+            [
+                'non-existent' => 'foo',
+                'accessKey' => '123',
             ],
-            'invalid-backoff' => [
-                [
-                    'backoffMaxTries' => 'foo',
-                    'accessKey' => '123',
-                ],
-                'Invalid options when creating client: Value "foo" is invalid: This value should be a valid number.',
+            'Invalid options when creating client: non-existent. Valid options are: backoffMaxTries, userAgent, handler, logger, accessKey.',
+        ];
+        yield 'invalid-backoff' => [
+            [
+                'backoffMaxTries' => 'foo',
+                'accessKey' => '123',
             ],
-            'missing-accessKey' => [
-                [
-                ],
-                'Invalid options when creating client: Value "" is invalid: This value should not be blank.',
+            'Invalid options when creating client: Value "foo" is invalid: This value should be a valid number.',
+        ];
+        yield 'missing-accessKey' => [
+            [
             ],
+            'Invalid options when creating client: Value "" is invalid: This value should not be blank.',
         ];
     }
 
