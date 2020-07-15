@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile74
     environment:
-      - TEST_TOPIC_ENDPOIND
+      - TEST_TOPIC_ENDPOINT
       - TEST_TOPIC_KEY
       # For Codeclimate
       - CC_TEST_REPORTER_ID

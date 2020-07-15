@@ -17,8 +17,7 @@ Create client instance and encrypt data:
 ```php
 $client = new Client(
     new GuzzleClientFactory($logger),
-    new AuthenticatorFactory(),
-    'https://connection-events.northeurope-1.eventgrid.azure.net/api/events'
+    'connection-events.northeurope-1.eventgrid.azure.net'
 );
 ```
 
@@ -34,18 +33,27 @@ where XX is PHP version (56 - 74), e.g.:
 
 ### Resources Setup
 
+    export EVENT_GRID_RG=testing-azure-event-grid-php-client
+    export EVENT_GRID_TOPIC_NAME=testing-event-grid-php-client-topic
+
 Create a resource group:
 
-	az group create --name testing-azure-event-grid-php-client --location "northeurope"
+	az group create --name $EVENT_GRID_RG --location "northeurope"
 
 Deploy the event grid:
 
-	az group deployment create --resource-group testing-azure-event-grid-php-client --template-file arm-template.json --location "northeurope"
+	az group deployment create --resource-group $EVENT_GRID_RG --template-file arm-template.json --parameters topicName=$EVENT_GRID_TOPIC_NAME
 
 optionally parameter `topicName` can be set to override default topic name
 
 Get endpoint url:
 
-    az resource show -g testing-azure-event-grid-php-client --resource-type "Microsoft.EventGrid/topics"
+    az resource show -g $EVENT_GRID_RG --resource-type "Microsoft.EventGrid/topics" -n $EVENT_GRID_TOPIC_NAME
 
-returns properties.endpoint set it as TEST_TOPIC_ENDPOIND
+returns properties.endpoint set it as TEST_TOPIC_ENDPOINT
+
+Get endpoint accessKey:
+
+    az eventgrid topic key list -g $EVENT_GRID_RG -n $EVENT_GRID_TOPIC_NAME
+
+returns key1 and key2 set one of them as TEST_TOPIC_KEY
