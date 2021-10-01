@@ -104,6 +104,8 @@ class GuzzleClientFactory
         return new GuzzleClient([
             'base_uri' => $url,
             'handler' => $handlerStack,
+            'connect_timeout' => 10,
+            'timeout' => 20,
             'headers' => [
                 'User-Agent' => $options['userAgent'],
                 'Content-type' => 'application/json',
