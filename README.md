@@ -57,3 +57,7 @@ Get endpoint accessKey:
     az eventgrid topic key list -g $EVENT_GRID_RG -n $EVENT_GRID_TOPIC_NAME
 
 returns key1 and key2 set one of them as TEST_TOPIC_KEY
+
+## License
+
+MIT licensed, see [LICENSE](./LICENSE) file.
