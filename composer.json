@@ -26,24 +26,22 @@
         }
     },
     "require": {
-        "php": ">=7.1",
+        "php": "^8",
         "ext-json": "*",
-        "guzzlehttp/guzzle": "^6.3",
-        "psr/log": "^1.1",
-        "symfony/config": "^3.4|^4.2|^5.0",
-        "symfony/validator": "^3.4|^4.2|^5.0"
+        "guzzlehttp/guzzle": "^6|^7",
+        "symfony/config": "^5|^6",
+        "psr/log": "^1.1 || ^2.0 || ^3.0",
+        "symfony/validator": "^5|^6"
     },
     "require-dev": {
-        "jakub-onderka/php-parallel-lint": "^1.0",
-        "phpstan/phpstan": "^0.12.32",
-        "phpunit/phpunit": "^5.6"
+        "phpstan/phpstan": "^1",
+        "phpunit/phpunit": "^9",
+        "rector/rector": "^0.15.13"
     },
     "scripts": {
         "phpstan": "vendor/bin/phpstan analyse src tests --level=max",
         "tests": "phpunit --coverage-clover build/logs/clover.xml --coverage-xml=build/logs/coverage-xml --log-junit=build/logs/phpunit.junit.xml",
-        "phplint": "parallel-lint -j 10 --exclude vendor .",
         "build": [
-            "@phplint",
             "@phpstan",
             "@tests"
         ],
@@ -54,6 +52,7 @@
     },
     "config": {
         "sort-packages": true,
-        "process-timeout": 3600
+        "process-timeout": 3600,
+        "lock": false
     }
 }

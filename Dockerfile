@@ -1,4 +1,6 @@
-FROM php:7.4-cli
+ARG PHP_VERSION=8.1
+
+FROM php:${PHP_VERSION:-8.1}-cli-buster
 
 ENV COMPOSER_ALLOW_SUPERUSER 1
 
@@ -15,7 +17,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 RUN pecl channel-update pecl.php.net \
     && pecl config-set php_ini /usr/local/etc/php.ini \
-    && pecl install xdebug-2.9.8 \
+    && pecl install xdebug \
     && docker-php-ext-enable xdebug
 
 COPY composer.* ./
