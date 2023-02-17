@@ -1,0 +1,31 @@
+name: Tests
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+env:
+  TEST_TOPIC_ENDPOINT: ci-event-grid-php-client.northeurope-1.eventgrid.azure.net/api/events
+  TEST_TOPIC_KEY: ${{ secrets.TEST_TOPIC_KEY }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version:
+          - '8.0'
+          - '8.1'
+          - '8.2'
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v2
+      -
+        name: Build & Run tests
+        run: |
+          docker-compose build --build-arg PHP_VERSION=${{ matrix.php-version }} tests
+          docker-compose run --rm tests composer ci

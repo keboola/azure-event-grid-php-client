@@ -36,9 +36,9 @@ class GuzzleClientFactory
     }
 
     /**
-     * @param array<mixed> $options
+     * @param array{backoffMaxTries?:int, userAgent?:string, handler?:HandlerStack, logger?:LoggerInterface, accessKey:string} $options
      */
-    public function getClient(string $baseUrl, array $options = []): GuzzleClient
+    public function getClient(string $baseUrl, array $options): GuzzleClient
     {
         $validator = Validation::createValidator();
         $errors = $validator->validate($baseUrl, [new NotBlank(), new Url()]);
@@ -68,7 +68,7 @@ class GuzzleClientFactory
             $messages = [];
             /** @var ConstraintViolationInterface $error */
             foreach ($errors as $error) {
-                $messages[] = sprintf('Value "%s" is invalid: %s', $error->getInvalidValue(), (string) $error->getMessage());
+                $messages[] = sprintf('Options error: %s', $error->getMessage());
             }
             throw new ClientException('Invalid options when creating client: ' . implode("\n", $messages));
         }
@@ -82,7 +82,7 @@ class GuzzleClientFactory
     {
         // Initialize handlers (start with those supplied in constructor)
         if (isset($options['handler']) && $options['handler'] instanceof HandlerStack) {
-            $handlerStack = HandlerStack::create($options['handler']);
+            $handlerStack = $options['handler'];
         } else {
             $handlerStack = HandlerStack::create();
         }
